@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حمودي ميديا</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            overflow-x: hidden;
+        }
+        header {
+            background-color: #202020;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        header h1 {
+            font-size: 24px;
+            flex: 1;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 400px;
+        }
+        .search-bar input {
+            width: 80%;
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        .search-bar button {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #cc0000;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #202020;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            color: white;
+            display: block;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 15px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #333;
+            padding: 5px;
+        }
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+            margin-top: 70px;
+        }
+        .video-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            overflow-x: hidden;
+        }
+        .video-box {
+            width: 300px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .video-box:hover {
+            transform: scale(1.05);
+        }
+        iframe {
+            width: 100%;
+            height: 180px;
+            display: block;
+            margin: 0 auto;
+        }
+        .video-title {
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+        footer {
+            background-color: #202020;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+            header h1 {
+                font-size: 20px;
+            }
+            .video-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .video-box {
+                width: 90%;
+                margin-bottom: 15px;
+            }
+            .search-bar {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                padding: 10px;
+            }
+            .search-bar input {
+                width: 70%;
+            }
+            .search-bar button {
+                width: 25%;
+            }
+            .video-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .video-box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>حمودي ميديا</h1>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="ابحث عن الفيديوهات..." onkeyup="searchVideos()" />
+        <button>بحث</button>
+    </div>
+</header>
+<div class="sidebar">
+    <a href="#">الصفحة الرئيسية</a>
+    <a href="#">الاشتراكات</a>
+    <a href="#">الفيديوهات المفضلة</a>
+    <a href="#">الإشعارات</a>
+    <a href="#">المساعدة</a>
+    <a href="#">القنوات</a>
+    <a href="live-stream.html">البث المباشر</a> <!-- رابط قسم البث المباشر -->
+</div>
+<div class="main-content">
+    <h2>أحدث الفيديوهات</h2>
+    <div class="video-container" id="videoContainer">
+        <div class="video-box" data-title="فيديو 1">
+            <iframe src="https://www.youtube.com/embed/wI6Y4Qo83qY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="video-title">فيديو 1</div>
+        </div>
+        <!-- المزيد من مقاطع الفيديو هنا -->
+    </div>
+</div>
+<footer>
+    <p>جميع الحقوق محفوظة &copy; 2025</p>
+</footer>
+
+<script>
+    function searchVideos() {
+        var input, filter, container, videoBoxes, title, i, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        container = document.getElementById("videoContainer");
+        videoBoxes = container.getElementsByClassName('video-box');
+        for (i = 0; i < videoBoxes.length; i++) {
+            title = videoBoxes[i].getElementsByClassName("video-title")[0];
+            txtValue = title.textContent || title.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                videoBoxes[i].style.display = "";
+            } else {
+                videoBoxes[i].style.display = "none";
+            }
+        }
+    }
+</script>
+</body>
+</html>
